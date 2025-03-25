@@ -11,23 +11,12 @@
         class="flex flex-col gap-4"
       >
         <div>
-          <label for="name" class="block text-sm font-medium">Name</label>
+          <label for="username" class="block text-sm font-medium">Email</label>
           <input
-            id="name"
-            type="text"
-            pInputText
-            formControlName="name"
-            class="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-medium">Email</label>
-          <input
-            id="email"
+            id="username"
             type="email"
             pInputText
-            formControlName="email"
+            formControlName="username"
             class="w-full p-2 border rounded"
           />
         </div>
@@ -45,7 +34,20 @@
           />
         </div>
 
-        <button pButton type="submit" label="Sign Up" class="w-full"></button>
+                <div>
+          <label for="confirmPassword" class="block text-sm font-medium"
+            >Confirm Password</label
+          >
+          <p-password
+            id="confirmPassword"
+            type="password"
+            toggleMask
+            formControlName="confirmPassword"
+            class="w-full p-2 border rounded"
+          />
+        </div>
+
+        <button pButton type="submit" label="Sign Up" class="w-full" [disabled]="!registerForm.valid"></button>
       </form>
 
       <div class="mt-4 text-center">
