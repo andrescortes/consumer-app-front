@@ -20,7 +20,24 @@
             class="w-full p-2 border rounded"
           />
         </div>
-
+        <div class="w-full p-2 border rounded">
+          <p-multiSelect
+            filter="false"
+            [options]="roles"
+            formControlName="roles"
+            optionLabel="role"
+            placeholder="Select Roles"
+          />
+        </div>
+        <div >
+          <p-checkbox
+            formControlName="enabled"
+            [binary]="true"
+            inputId="enabled"
+            class="border rounded"
+          />
+          <label for="enabled" class="ml-2">Enabled</label>
+        </div>
         <div>
           <label for="password" class="block text-sm font-medium"
             >Password</label
@@ -34,7 +51,7 @@
           />
         </div>
 
-                <div>
+        <div>
           <label for="confirmPassword" class="block text-sm font-medium"
             >Confirm Password</label
           >
@@ -47,7 +64,13 @@
           />
         </div>
 
-        <button pButton type="submit" label="Sign Up" class="w-full" [disabled]="!registerForm.valid"></button>
+        <button
+          pButton
+          type="submit"
+          label="Sign Up"
+          class="w-full"
+          [disabled]="!registerForm.valid"
+        ></button>
       </form>
 
       <div class="mt-4 text-center">
@@ -59,4 +82,6 @@
   </p-card>
 </div>
 
-<p-toast position="bottom-right" key="br"></p-toast>
+<div class="card">
+    <p-messages [(value)]="messages" [enableService]="false" />
+</div>
