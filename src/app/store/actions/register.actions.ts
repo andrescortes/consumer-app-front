@@ -5,6 +5,7 @@ export enum RegisterActionTypes {
   REGISTER = '[Register] Register',
   REGISTER_SUCCESS = '[Register] Register Success',
   REGISTER_FAILURE = '[Register] Register Failure',
+  REGISTER_CLEAR = '[Register] Register Clear',
 }
 
 export class Register implements Action {
@@ -22,4 +23,12 @@ export class RegisterFailure implements Action {
   constructor(public payload: string) {}
 }
 
-export type RegisterActions = Register | RegisterSuccess | RegisterFailure;
+export class RegisterClear implements Action {
+  readonly type = RegisterActionTypes.REGISTER_CLEAR;
+}
+
+export type RegisterActions =
+  | Register
+  | RegisterSuccess
+  | RegisterFailure
+  | RegisterClear;

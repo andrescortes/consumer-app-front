@@ -9,7 +9,8 @@ import { MessageService } from 'primeng/api';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MessagesModule } from 'primeng/messages';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [],
@@ -22,7 +23,8 @@ import { MessagesModule } from 'primeng/messages';
     MultiSelectModule,
     PasswordModule,
     ProgressSpinnerModule,
-    MessagesModule,
+    RippleModule,
+    ToastModule,
   ],
   exports: [
     ButtonModule,
@@ -32,7 +34,8 @@ import { MessagesModule } from 'primeng/messages';
     MultiSelectModule,
     PasswordModule,
     ProgressSpinnerModule,
-    MessagesModule,
+    RippleModule,
+    ToastModule,
   ],
   providers: [MessageService],
 })

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Message } from 'primeng/api';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { IRegister, RoleModel } from '../../../../shared/models';
 import { Register } from '../../../../store/actions';
@@ -11,6 +10,7 @@ import {
   selectAuthRegisterMessage,
 } from '../../../../store/selectors';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-register',
@@ -23,12 +23,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerMessage$!: Observable<string>;
   registerError$!: Observable<string | null>;
   roles = ROLE_TYPES_ALLOWED;
-  messages: Message[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +58,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const { username, roles, enabled, password, confirmPassword } =
       this.registerForm.value;
     if (password !== confirmPassword) {
-      const error = 'Passwords do not match';
-      this.showMessageError(error);
+      this.notificationService.show('error', 'Passwords do not match');
       return;
     }
     if (this.registerForm.valid) {
@@ -70,21 +69,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
         enabled,
         password,
       };
-      console.log('Register Data:', registerData);
       this.store.dispatch(new Register(registerData));
     } else {
-      const error = 'Invalid credentials';
-      this.showMessageError(error);
+      this.notificationService.show('error', 'Invalid credentials');
     }
   }
 
   messageOnChanges() {
     this.registerMessage$
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((value) => !!value)
+      )
       .subscribe((message) => {
-        console.log('Message from request to server:', message);
         if (message) {
-          this.showMessageSuccess(message);
+          this.notificationService.show('success', message);
           this.router.navigate(['../login']);
         }
       });
@@ -97,26 +96,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         filter((value) => !!value)
       )
       .subscribe((error) => {
-        console.log('Error from request to server:', error);
         if (error) {
-          this.showMessageError(error);
+          this.notificationService.show('error', error);
         }
       });
-  }
-
-  showMessageSuccess(content: string): void {
-    this.messages = [
-      { severity: 'success', summary: 'Success', detail: content },
-    ];
-  }
-
-  showMessageError(content: string): void {
-    this.messages = [
-      { severity: 'error', summary: 'Error', detail: content },
-    ];
-  }
-
-  clearMessages(): void {
-    this.messages = [];
   }
 }

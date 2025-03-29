@@ -23,6 +23,13 @@ export function registerReducer(
         error: action.payload,
         loading: false,
       };
+    case RegisterActionTypes.REGISTER_CLEAR:
+      return {
+        ...state,
+        message: '',
+        loading: false,
+        error: null,
+      };
     default:
       return state;
   }

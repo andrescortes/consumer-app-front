@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import {
   Register,
   RegisterActionTypes,
+  RegisterClear,
   RegisterFailure,
   RegisterSuccess,
 } from '../../actions';
@@ -28,6 +29,16 @@ export class AuthRegisterEffects {
           })
         )
       )
+    )
+  );
+
+  clear$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        RegisterActionTypes.REGISTER_SUCCESS,
+        RegisterActionTypes.REGISTER_FAILURE
+      ),
+      map(() => new RegisterClear())
     )
   );
 
