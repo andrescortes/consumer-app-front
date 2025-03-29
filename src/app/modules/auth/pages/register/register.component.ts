@@ -15,7 +15,7 @@ import { NotificationService } from '../../../../shared/services';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();

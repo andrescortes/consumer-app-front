@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css',
+  styleUrl: './notification.component.scss',
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   unsub$ = new Subject<void>();
@@ -14,8 +14,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   constructor(
     private readonly messageService: MessageService,
     private readonly noticationService: NotificationService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.onChangeNotification();
@@ -29,11 +28,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   onChangeNotification(): void {
     this.noticationService
       .getNotification()
-      .pipe(
-        takeUntil(this.unsub$)
-      )
+      .pipe(takeUntil(this.unsub$))
       .subscribe((notification) => {
-        console.log('Notification: ', notification);
         switch (notification.severity) {
           case 'success':
             this.success(notification.content);
@@ -57,6 +53,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       summary: 'Success',
       detail: content,
       key: 'toast',
+      life: 4000,
     });
   }
 
@@ -66,6 +63,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       summary: 'Error',
       detail: content,
       key: 'toast',
+      life: 4000,
     });
   }
 
@@ -75,6 +73,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       summary: 'Warning',
       detail: content,
       key: 'toast',
+      life: 4000,
     });
   }
 
@@ -84,6 +83,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       summary: 'Info',
       detail: content,
       key: 'toast',
+      life: 4000,
     });
   }
 }

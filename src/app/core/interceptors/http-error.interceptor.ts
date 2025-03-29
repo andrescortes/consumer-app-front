@@ -7,22 +7,20 @@ import {
   HttpEvent,
 } from '@angular/common/http';
 import { SpinnerService } from '../../shared/services/spinner.service';
-import { catchError, throwError, finalize, Observable } from 'rxjs';
+import { catchError, throwError, finalize, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly spinnerService: SpinnerService) {
-    spinnerService.show();
-  }
+  constructor(private readonly spinnerService: SpinnerService) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
+      tap(() => this.spinnerService.show()),
       catchError((error: HttpErrorResponse) => {
-        console.error('error from server', error);
         let errorMessage = 'Something went wrong';
         if (error.status === 400) {
           errorMessage = 'Request is invalid, please check your data';
