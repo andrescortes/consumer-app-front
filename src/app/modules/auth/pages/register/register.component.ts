@@ -1,49 +1,104 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { IRegister, RoleModel } from '../../../../shared/models';
+import { RegisterAction } from '../../../../store/actions';
+import { ROLE_TYPES_ALLOWED } from '../../../../shared/constants/app-constants';
+import {
+  selectAuthRegisterError,
+  selectAuthRegisterMessage,
+} from '../../../../store/selectors';
+import { Router } from '@angular/router';
+import { NotificationService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrl: './register.component.scss',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
+  private readonly unsubscribe$ = new Subject<void>();
   registerForm!: FormGroup;
+  registerMessage$!: Observable<string>;
+  registerError$!: Observable<string | null>;
+  roles = ROLE_TYPES_ALLOWED;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly messageService: MessageService
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.registerMessage$ = this.store.select(selectAuthRegisterMessage);
+    this.registerError$ = this.store.select(selectAuthRegisterError);
+    this.messageOnChanges();
+    this.errorOnChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   createForm(): void {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.email]],
+      roles: ['', Validators.required],
+      enabled: [true, Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
     });
   }
 
   register() {
-    if (this.registerForm.valid) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Registration successful',
-        key: 'br',
-      });
-      console.log('Signup Data:', this.registerForm.value);
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Invalid credentials',
-        key: 'br',
-      });
+    const { username, roles, enabled, password, confirmPassword } =
+      this.registerForm.value;
+    if (password !== confirmPassword) {
+      this.notificationService.show('error', 'Passwords do not match');
+      return;
     }
+    if (this.registerForm.valid) {
+      const extractedRoles = roles.map((role: RoleModel) => role.roleApply);
+      const registerData: IRegister = {
+        username,
+        roles: extractedRoles,
+        enabled,
+        password,
+      };
+      this.store.dispatch(new RegisterAction(registerData));
+    } else {
+      this.notificationService.show('error', 'Invalid credentials');
+    }
+  }
+
+  messageOnChanges() {
+    this.registerMessage$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((value) => !!value)
+      )
+      .subscribe((message) => {
+        if (message) {
+          this.notificationService.show('success', message);
+          this.router.navigate(['../login']);
+        }
+      });
+  }
+
+  errorOnChanges() {
+    this.registerError$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((value) => !!value)
+      )
+      .subscribe((error) => {
+        if (error) {
+          this.notificationService.show('error', error);
+        }
+      });
   }
 }

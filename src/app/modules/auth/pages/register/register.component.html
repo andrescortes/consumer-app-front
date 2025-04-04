@@ -11,27 +11,34 @@
         class="flex flex-col gap-4"
       >
         <div>
-          <label for="name" class="block text-sm font-medium">Name</label>
+          <label for="username" class="block text-sm font-medium">Email</label>
           <input
-            id="name"
-            type="text"
-            pInputText
-            formControlName="name"
-            class="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-medium">Email</label>
-          <input
-            id="email"
+            id="username"
             type="email"
             pInputText
-            formControlName="email"
+            formControlName="username"
             class="w-full p-2 border rounded"
+            autocomplete="username"
           />
         </div>
-
+        <div class="w-full p-2 border rounded">
+          <p-multiSelect
+            filter="false"
+            [options]="roles"
+            formControlName="roles"
+            optionLabel="role"
+            placeholder="Select Roles"
+          />
+        </div>
+        <div >
+          <p-checkbox
+            formControlName="enabled"
+            [binary]="true"
+            inputId="enabled"
+            class="border rounded"
+          />
+          <label for="enabled" class="ml-2">Enabled</label>
+        </div>
         <div>
           <label for="password" class="block text-sm font-medium"
             >Password</label
@@ -42,10 +49,32 @@
             toggleMask
             formControlName="password"
             class="w-full p-2 border rounded"
+            autocomplete="new-password"
           />
         </div>
 
-        <button pButton type="submit" label="Sign Up" class="w-full"></button>
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium"
+            >Confirm Password</label
+          >
+          <p-password
+            id="confirmPassword"
+            type="password"
+            toggleMask
+            formControlName="confirmPassword"
+            class="w-full p-2 border rounded"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <button
+          pButton
+          rounded="true"
+          type="submit"
+          label="Sign Up"
+          class="w-full"
+          [disabled]="!registerForm.valid"
+        ></button>
       </form>
 
       <div class="mt-4 text-center">
@@ -57,4 +86,3 @@
   </p-card>
 </div>
 
-<p-toast position="bottom-right" key="br"></p-toast>

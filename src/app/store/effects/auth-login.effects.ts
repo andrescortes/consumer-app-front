@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { AuthLoginService } from '../../core/services/auth';
+import {
+  LoginAction,
+  LoginActionClear,
+  LoginActionFailure,
+  LoginActionSuccess,
+  LoginActionTypes,
+} from '../actions';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { ITokenResponse } from '../../shared/models';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class AuthLoginEffect {
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType<LoginAction>(LoginActionTypes.LOGIN),
+      exhaustMap((action) =>
+        this.authLoginService.login(action.payload).pipe(
+          map((response: ITokenResponse) => new LoginActionSuccess(response)),
+          tap(() => this.router.navigate(['/dashboard'])),
+          catchError((error: { message: string }) =>
+            of(new LoginActionFailure(error?.message))
+          )
+        )
+      )
+    )
+  );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType<LoginActionClear>(LoginActionTypes.LOGIN_CLEAR),
+      map(() => new LoginActionClear()),
+      tap(() => this.router.navigate(['auth/login']))
+    )
+  );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly authLoginService: AuthLoginService,
+    private readonly router: Router
+  ) {}
+}
