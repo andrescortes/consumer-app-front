@@ -9,3 +9,4 @@ export const ROLE_TYPES_ALLOWED: RoleModel[] = [
 // key for reducers
 export const AUTH_REGISTER_KEY: string = 'authRegister';
 export const CHARACTER_KEY: string = 'character';
+export const AUTH_LOGIN_KEY: string = 'authLogin';

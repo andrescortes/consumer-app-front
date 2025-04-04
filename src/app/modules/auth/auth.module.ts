@@ -8,11 +8,11 @@ import { StoreModule } from '@ngrx/store';
 
 import { AuthRoutingModule } from './auth-routing.module';
 
-import { AUTH_REGISTER_KEY } from '../../shared/constants/app-constants';
+import { AUTH_LOGIN_KEY, AUTH_REGISTER_KEY } from '../../shared/constants/app-constants';
 import { AuthRegisterEffects } from '../../store/effects/register/auth-register.effects';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { registerReducer } from '../../store/reducers';
+import { loginReducer, registerReducer } from '../../store/reducers';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
@@ -24,6 +24,7 @@ import { SharedModule } from '../../shared/shared.module';
     RouterLink,
     SharedModule,
     StoreModule.forFeature(AUTH_REGISTER_KEY, registerReducer),
+    StoreModule.forFeature(AUTH_LOGIN_KEY, loginReducer),
     EffectsModule.forFeature([AuthRegisterEffects]),
   ],
 })
