@@ -5,7 +5,7 @@ import { IApiResponse, IRegister } from '../../../shared/models';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class AuthService {
+export class AuthRegisterService {
   consumerAppUrl = environment.consumerAppUrl;
 
   constructor(private readonly http: HttpClient) {}

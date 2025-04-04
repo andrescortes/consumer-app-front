@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { IRegister, RoleModel } from '../../../../shared/models';
-import { Register } from '../../../../store/actions';
+import { RegisterAction } from '../../../../store/actions';
 import { ROLE_TYPES_ALLOWED } from '../../../../shared/constants/app-constants';
 import {
   selectAuthRegisterError,
@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         enabled,
         password,
       };
-      this.store.dispatch(new Register(registerData));
+      this.store.dispatch(new RegisterAction(registerData));
     } else {
       this.notificationService.show('error', 'Invalid credentials');
     }

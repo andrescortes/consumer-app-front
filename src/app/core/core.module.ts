@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthService } from './services/auth/auth.service';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { AuthLoginService, AuthRegisterService } from './services/auth';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule, HttpClientModule],
   providers: [
-    AuthService,
+    AuthRegisterService,
+    AuthLoginService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
