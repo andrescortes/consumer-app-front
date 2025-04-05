@@ -6,16 +6,12 @@ export function loginReducer(
   action: LoginActions
 ): ILoginState {
   switch (action.type) {
-    case LoginActionTypes.LOGIN:
-      return {
-        ...state,
-      };
     case LoginActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         tokenResponse: action.payload,
         isAuthenticated: true,
-        error: null
+        error: null,
       };
     case LoginActionTypes.LOGIN_FAILURE:
       return {
@@ -25,7 +21,6 @@ export function loginReducer(
       };
     case LoginActionTypes.LOGIN_CLEAR:
       return {
-        ...state,
         tokenResponse: null,
         isAuthenticated: false,
         error: null,

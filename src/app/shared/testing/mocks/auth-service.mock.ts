@@ -1,6 +1,6 @@
-import { AuthService } from "../../../core/services/auth/auth-register.service";
+import { AuthRegisterService } from "../../../core/services/auth";
 
-export const authServiceMock = jasmine.createSpyObj<AuthService>('AuthService', {
+export const authServiceMock = jasmine.createSpyObj<AuthRegisterService>('AuthService', {
   consumerAppUrl: 'http://localhost:9000/api/v1/test',
   register: undefined,
 });

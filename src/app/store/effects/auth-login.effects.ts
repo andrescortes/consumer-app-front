@@ -8,9 +8,8 @@ import {
   LoginActionSuccess,
   LoginActionTypes,
 } from '../actions';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { ITokenResponse } from '../../shared/models';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthLoginEffect {
@@ -20,7 +19,6 @@ export class AuthLoginEffect {
       exhaustMap((action) =>
         this.authLoginService.login(action.payload).pipe(
           map((response: ITokenResponse) => new LoginActionSuccess(response)),
-          tap(() => this.router.navigate(['/dashboard'])),
           catchError((error: { message: string }) =>
             of(new LoginActionFailure(error?.message))
           )
@@ -29,17 +27,15 @@ export class AuthLoginEffect {
     )
   );
 
-  logout$ = createEffect(() =>
+  clear$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<LoginActionClear>(LoginActionTypes.LOGIN_CLEAR),
-      map(() => new LoginActionClear()),
-      tap(() => this.router.navigate(['auth/login']))
+      ofType(LoginActionTypes.LOGIN_FAILURE, LoginActionTypes.LOGOUT),
+      map(() => new LoginActionClear())
     )
   );
 
   constructor(
     private readonly actions$: Actions,
-    private readonly authLoginService: AuthLoginService,
-    private readonly router: Router
+    private readonly authLoginService: AuthLoginService
   ) {}
 }
