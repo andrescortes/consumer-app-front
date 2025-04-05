@@ -5,6 +5,7 @@ export enum LoginActionTypes {
   LOGIN = '[Login] Login',
   LOGIN_SUCCESS = '[Login] Login Success',
   LOGIN_FAILURE = '[Login] Login Failure',
+  LOGOUT = '[Login] Logout',
   LOGIN_CLEAR = '[Login] Login Clear',
 }
 
@@ -23,8 +24,17 @@ export class LoginActionFailure implements Action {
   constructor(public payload: string) {}
 }
 
+export class LoginActionLogout implements Action {
+  readonly type = LoginActionTypes.LOGOUT;
+}
+
 export class LoginActionClear implements Action {
   readonly type = LoginActionTypes.LOGIN_CLEAR;
 }
 
-export type LoginActions = LoginAction | LoginActionSuccess | LoginActionFailure | LoginActionClear;
+export type LoginActions =
+  | LoginAction
+  | LoginActionSuccess
+  | LoginActionFailure
+  | LoginActionLogout
+  | LoginActionClear;

@@ -36,13 +36,17 @@
           />
         </div>
 
-        <button pButton type="submit" label="Login" class="w-full"></button>
+        <button
+          pButton
+          type="submit"
+          label="Login"
+          class="w-full"
+          [disabled]="!loginForm.valid"
+        ></button>
       </form>
 
       <div class="mt-4 text-center">
-        <a routerLink="../register" class="text-blue-500"
-          >Create an account</a
-        >
+        <a routerLink="../register" class="text-blue-500">Create an account</a>
       </div>
     </ng-template>
   </p-card>
