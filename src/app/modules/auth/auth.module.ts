@@ -12,12 +12,10 @@ import {
   AUTH_LOGIN_KEY,
   AUTH_REGISTER_KEY,
 } from '../../shared/constants/app-constants';
-import { AuthRegisterEffects } from '../../store/effects/auth-register.effects';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { loginReducer, registerReducer } from '../../store/reducers';
 import { SharedModule } from '../../shared/shared.module';
-import { AuthLoginEffect } from '../../store/effects/auth-login.effects';
 import { appEffects } from '../../store/effects/app.effects';
 
 @NgModule({
