@@ -15,6 +15,13 @@ const routes: Routes = [
     // canActivate: [loginGuard] TODO: ends login component
   },
   {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'auth/login',
   },
