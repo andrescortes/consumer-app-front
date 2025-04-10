@@ -11,6 +11,7 @@ import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
     PasswordModule,
     ProgressSpinnerModule,
     RippleModule,
+    SidebarModule,
     ToastModule,
   ],
   exports: [
@@ -35,6 +37,7 @@ import { ToastModule } from 'primeng/toast';
     PasswordModule,
     ProgressSpinnerModule,
     RippleModule,
+    SidebarModule,
     ToastModule,
   ],
   providers: [MessageService],

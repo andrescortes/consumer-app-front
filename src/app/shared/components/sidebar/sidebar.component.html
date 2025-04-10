@@ -1,0 +1,58 @@
+<!-- Botón hamburguesa visible solo en pantallas pequeñas -->
+<button
+  (click)="toggleSidebar()"
+  class="md:hidden fixed top-4 left-4 z-50 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 rounded-md shadow-md"
+>
+  <i class="pi pi-bars text-xl text-gray-700 dark:text-gray-200"></i>
+</button>
+
+<!-- Sidebar flotante para mobile -->
+<p-sidebar
+  [(visible)]="visible"
+  [modal]="true"
+  [baseZIndex]="1000"
+  position="left"
+  class="md:hidden"
+>
+  <nav class="flex flex-col gap-4">
+    <a
+      routerLink="/dashboard"
+      class="flex items-center gap-2 p-2 rounded-md hover:bg-blue-100 dark:hover:bg-gray-700"
+    >
+      <i class="pi pi-home"></i>
+      <span>Dashboard</span>
+    </a>
+    <a
+      routerLink="/users"
+      class="flex items-center gap-2 p-2 rounded-md hover:bg-blue-100 dark:hover:bg-gray-700"
+    >
+      <i class="pi pi-users"></i>
+      <span>Usuarios</span>
+    </a>
+  </nav>
+</p-sidebar>
+
+<!-- Sidebar fijo para pantallas grandes -->
+<aside
+  class="hidden md:block w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4"
+>
+  <nav class="flex flex-col gap-2">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300"
+      class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700"
+    >
+      <i class="pi pi-home"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/users"
+      routerLinkActive="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300"
+      class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700"
+    >
+      <i class="pi pi-users"></i>
+      <span>Usuarios</span>
+    </a>
+  </nav>
+</aside>
